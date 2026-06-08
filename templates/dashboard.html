@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-header">
+    <div>
+        <p class="eyebrow">Hoje</p>
+        <h1>Resumo do estúdio</h1>
+    </div>
+    <div class="actions">
+        <a class="btn" href="{{ url_for('reports.index') }}">Gerar relatórios</a>
+        <a class="btn primary" href="{{ url_for('appointments.create') }}">Novo agendamento</a>
+    </div>
+</header>
+
+<section class="metrics">
+    <article class="metric">
+        <span>Atendimentos do dia</span>
+        <strong>{{ todays_appointments|length }}</strong>
+    </article>
+    <article class="metric">
+        <span>Pagamentos pendentes</span>
+        <strong>{{ pending_payments }}</strong>
+    </article>
+    <article class="metric">
+        <span>Recebido no mês</span>
+        <strong>{{ month_received|money }}</strong>
+    </article>
+    <article class="metric">
+        <span>Remarcações</span>
+        <strong>{{ reschedules }}</strong>
+    </article>
+</section>
+
+<section class="grid-two">
+    <div class="panel">
+        <div class="panel-title">
+            <h2>Atendimentos de hoje</h2>
+        </div>
+        {% if todays_appointments %}
+        <div class="list">
+            {% for item in todays_appointments %}
+            <a class="list-row" href="{{ url_for('appointments.edit', appointment_id=item.id) }}">
+                <div>
+                    <strong>{{ item.scheduled_at.strftime("%H:%M") }} · {{ item.client.name }}</strong>
+                    <span>{{ item.service.name }}</span>
+                </div>
+                <em class="pill {{ item.payment_status|lower }}">{{ item.payment_status }}</em>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="empty">Nenhum atendimento marcado para hoje.</p>
+        {% endif %}
+    </div>
+
+    <div class="panel">
+        <div class="panel-title">
+            <h2>Próximos horários</h2>
+        </div>
+        {% if next_appointments %}
+        <div class="list">
+            {% for item in next_appointments %}
+            <a class="list-row" href="{{ url_for('appointments.edit', appointment_id=item.id) }}">
+                <div>
+                    <strong>{{ item.scheduled_at.strftime("%d/%m %H:%M") }}</strong>
+                    <span>{{ item.client.name }} · {{ item.service.name }}</span>
+                </div>
+                <em class="pill">{{ item.appointment_status }}</em>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="empty">A agenda está livre nos próximos horários.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

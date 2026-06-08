@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-header">
+    <div>
+        <p class="eyebrow">Relacionamento</p>
+        <h1>Clientes</h1>
+    </div>
+    <a class="btn primary" href="{{ url_for('clients.create') }}">Nova cliente</a>
+</header>
+
+<form class="filters compact" method="get">
+    <input type="search" name="q" value="{{ search }}" placeholder="Buscar por nome">
+    <button class="btn" type="submit">Filtrar</button>
+</form>
+
+<section class="cards">
+    {% for client in clients %}
+    <article class="card">
+        <div>
+            <h2>{{ client.name }}</h2>
+            <p>{{ client.phone }}</p>
+            {% if client.email %}<p>{{ client.email }}</p>{% endif %}
+        </div>
+        <div class="actions">
+            <a class="btn small" href="{{ url_for('clients.edit', client_id=client.id) }}">Editar</a>
+            <form method="post" action="{{ url_for('clients.delete', client_id=client.id) }}" data-confirm="Excluir esta cliente?">
+                <button class="btn small danger" type="submit">Excluir</button>
+            </form>
+        </div>
+    </article>
+    {% else %}
+    <p class="empty">Nenhuma cliente cadastrada ainda.</p>
+    {% endfor %}
+</section>
+{% endblock %}

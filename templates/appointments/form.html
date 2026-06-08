@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-header">
+    <div>
+        <p class="eyebrow">Agenda</p>
+        <h1>{{ "Editar agendamento" if appointment and appointment.id else "Novo agendamento" }}</h1>
+    </div>
+</header>
+
+<form method="post" class="form-card wide" id="appointment-form">
+    <div class="form-grid">
+        <label>Cliente
+            <select name="client_id" required>
+                <option value="">Selecione</option>
+                {% for client in clients %}
+                <option value="{{ client.id }}" {% if appointment and appointment.client_id == client.id %}selected{% endif %}>{{ client.name }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Serviço
+            <select name="service_id" id="service-select" required>
+                <option value="">Selecione</option>
+                {% for service in services %}
+                <option value="{{ service.id }}" data-price="{{ service.price }}" {% if appointment and appointment.service_id == service.id %}selected{% endif %}>{{ service.name }} · {{ service.price|money }}</option>
+                {% endfor %}
+            </select>
+        </label>
+    </div>
+    <div class="form-grid">
+        <label>Data e horário
+            <input type="datetime-local" name="scheduled_at" value="{{ appointment.scheduled_at.strftime('%Y-%m-%dT%H:%M') if appointment and appointment.scheduled_at else '' }}" required>
+        </label>
+        <label>Valor
+            <input type="number" id="amount-input" name="amount" value="{{ '%.2f'|format(appointment.amount) if appointment and appointment.amount is not none else '' }}" min="0" step="0.01" required>
+        </label>
+    </div>
+    <div class="form-grid">
+        <label>Status do atendimento
+            <select name="appointment_status">
+                {% for status in appointment_statuses %}
+                <option value="{{ status }}" {% if appointment and appointment.appointment_status == status %}selected{% endif %}>{{ status }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Status do pagamento
+            <select name="payment_status">
+                {% for status in payment_statuses %}
+                <option value="{{ status }}" {% if appointment and appointment.payment_status == status %}selected{% endif %}>{{ status }}</option>
+                {% endfor %}
+            </select>
+        </label>
+    </div>
+    <label>Forma de pagamento
+        <select name="payment_method">
+            {% for method in payment_methods %}
+            <option value="{{ method }}" {% if appointment and appointment.payment_method == method %}selected{% endif %}>{{ method }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>Observações
+        <textarea name="notes" rows="4">{{ appointment.notes if appointment else '' }}</textarea>
+    </label>
+    <div class="form-actions">
+        <a class="btn" href="{{ url_for('appointments.index') }}">Cancelar</a>
+        <button class="btn primary" type="submit">Salvar</button>
+    </div>
+</form>
+{% endblock %}

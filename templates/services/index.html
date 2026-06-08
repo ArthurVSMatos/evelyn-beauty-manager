@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-header">
+    <div>
+        <p class="eyebrow">Catálogo</p>
+        <h1>Serviços</h1>
+    </div>
+    <div class="actions">
+        <a class="btn" href="{{ url_for('service_types.index') }}">Tipos de serviços</a>
+        <a class="btn primary" href="{{ url_for('services.create') }}">Novo serviço</a>
+    </div>
+</header>
+
+<section class="cards">
+    {% for service in services %}
+    <article class="card">
+        <div>
+            <h2>{{ service.name }}</h2>
+            <p><span class="pill">{{ service.service_type.name if service.service_type else "Sem tipo" }}</span></p>
+            <p>{{ service.description or "Sem descrição" }}</p>
+            <p><strong>{{ service.price|money }}</strong> · {{ service.duration_minutes }} min</p>
+        </div>
+        <div class="actions">
+            <span class="pill">{{ "Ativo" if service.active else "Inativo" }}</span>
+            <a class="btn small" href="{{ url_for('services.edit', service_id=service.id) }}">Editar</a>
+            <form method="post" action="{{ url_for('services.delete', service_id=service.id) }}" data-confirm="Excluir este serviço?">
+                <button class="btn small danger" type="submit">Excluir</button>
+            </form>
+        </div>
+    </article>
+    {% else %}
+    <p class="empty">Nenhum serviço cadastrado.</p>
+    {% endfor %}
+</section>
+{% endblock %}

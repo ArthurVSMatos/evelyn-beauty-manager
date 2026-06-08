@@ -1,0 +1,17 @@
+{
+  "name": "Evelyn Beauty",
+  "short_name": "Evelyn",
+  "description": "Agenda e controle financeiro para atendimentos de estética.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fbf8fa",
+  "theme_color": "#5f4b56",
+  "icons": [
+    {
+      "src": "/static/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

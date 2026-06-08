@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Entrar - {{ app_name }}{% endblock %}
+{% block content %}
+<section class="login-panel">
+    <div class="login-brand">
+        <span class="brand-mark large">EB</span>
+        <h1>{{ app_name }}</h1>
+        <p>Agenda e controle financeiro para atendimentos de beleza.</p>
+    </div>
+    <form method="post" class="form-card">
+        <label>Usuário
+            <input type="text" name="username" autocomplete="username" required autofocus>
+        </label>
+        <label>Senha
+            <input type="password" name="password" autocomplete="current-password" required>
+        </label>
+        <button class="btn primary" type="submit">Entrar</button>
+        <p class="hint">Primeiro acesso: admin / admin123. Altere via variáveis de ambiente em produção.</p>
+    </form>
+</section>
+{% endblock %}

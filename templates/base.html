@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#5f4b56">
+    <title>{% block title %}{{ app_name }}{% endblock %}</title>
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <link rel="icon" href="{{ url_for('static', filename='icons/icon.svg') }}" type="image/svg+xml">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% if session.get("user_id") %}
+    <aside class="sidebar">
+        <a class="brand" href="{{ url_for('dashboard.index') }}">
+            <span class="brand-mark">EB</span>
+            <span>{{ app_name }}</span>
+        </a>
+        <nav class="nav">
+            <a href="{{ url_for('dashboard.index') }}">Dashboard</a>
+            <a href="{{ url_for('clients.index') }}">Clientes</a>
+            <a href="{{ url_for('services.index') }}">Serviços</a>
+            <a href="{{ url_for('service_types.index') }}">Tipos</a>
+            <a href="{{ url_for('appointments.index') }}">Agenda</a>
+            <a href="{{ url_for('reports.index') }}">Relatórios</a>
+        </nav>
+        <a class="logout" href="{{ url_for('auth.logout') }}">Sair</a>
+    </aside>
+    {% endif %}
+
+    <main class="{% if session.get('user_id') %}shell{% else %}auth-shell{% endif %}">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div class="flash-stack">
+                {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+
+    {% if session.get("user_id") %}
+    <nav class="bottom-nav">
+        <a href="{{ url_for('dashboard.index') }}">Início</a>
+        <a href="{{ url_for('clients.index') }}">Clientes</a>
+        <a href="{{ url_for('services.index') }}">Serviços</a>
+        <a href="{{ url_for('appointments.index') }}">Agenda</a>
+    </nav>
+    {% endif %}
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-header">
+    <div>
+        <p class="eyebrow">Tipo de serviço</p>
+        <h1>{{ "Editar tipo" if service_type else "Novo tipo" }}</h1>
+    </div>
+</header>
+
+<form method="post" class="form-card wide">
+    <label>Nome
+        <input type="text" name="name" value="{{ service_type.name if service_type else '' }}" required>
+    </label>
+    <label>Descrição <span class="optional-label">opcional</span>
+        <textarea name="description" rows="3">{{ service_type.description if service_type else '' }}</textarea>
+    </label>
+    <div class="form-actions">
+        <a class="btn" href="{{ url_for('service_types.index') }}">Cancelar</a>
+        <button class="btn primary" type="submit">Salvar</button>
+    </div>
+</form>
+{% endblock %}

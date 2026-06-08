@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-header">
+    <div>
+        <p class="eyebrow">Serviço</p>
+        <h1>{{ "Editar serviço" if service else "Novo serviço" }}</h1>
+    </div>
+</header>
+
+<form method="post" class="form-card wide">
+    <label>Nome
+        <input type="text" name="name" value="{{ service.name if service else '' }}" required>
+    </label>
+    <label>Descrição
+        <textarea name="description" rows="3">{{ service.description if service else '' }}</textarea>
+    </label>
+    <label>Tipo de serviço <span class="optional-label">opcional</span>
+        <select name="service_type_id">
+            <option value="">Sem tipo</option>
+            {% for service_type in service_types %}
+            <option value="{{ service_type.id }}" {% if service and service.service_type_id == service_type.id %}selected{% endif %}>{{ service_type.name }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <div class="form-grid">
+        <label>Valor
+            <input type="number" name="price" value="{{ '%.2f'|format(service.price) if service else '' }}" min="0" step="0.01" required>
+        </label>
+        <label>Duração em minutos
+            <input type="number" name="duration_minutes" value="{{ service.duration_minutes if service else 60 }}" min="5" step="5" required>
+        </label>
+    </div>
+    <label class="check">
+        <input type="checkbox" name="active" value="1" {% if not service or service.active %}checked{% endif %}>
+        Serviço ativo
+    </label>
+    <div class="form-actions">
+        <a class="btn" href="{{ url_for('services.index') }}">Cancelar</a>
+        <button class="btn primary" type="submit">Salvar</button>
+    </div>
+</form>
+{% endblock %}
