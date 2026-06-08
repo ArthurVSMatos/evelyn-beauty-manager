@@ -1,0 +1,3 @@
+ source "/home/arthurvinicius/Área de trabalho/Projeto Evelyn/.venv/bin/activate"
+python-3.12.7
+
