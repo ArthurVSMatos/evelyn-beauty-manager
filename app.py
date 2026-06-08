@@ -21,6 +21,7 @@ from models.user import User
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
+    Config.validate_production_config()
     db.init_app(app)
 
     app.register_blueprint(auth_bp)
@@ -52,8 +53,13 @@ def create_app():
 
 
 def seed_admin():
+    if not Config.ADMIN_USERNAME or not Config.ADMIN_PASSWORD:
+        print("ADMIN_USERNAME ou ADMIN_PASSWORD não configurados.")
+        return
+
     if User.query.filter_by(username=Config.ADMIN_USERNAME).first():
         return
+
     user = User(username=Config.ADMIN_USERNAME)
     user.set_password(Config.ADMIN_PASSWORD)
     db.session.add(user)
@@ -62,10 +68,12 @@ def seed_admin():
 
 def ensure_schema_updates():
     inspector = inspect(db.engine)
+
     if "services" not in inspector.get_table_names():
         return
 
     columns = [column["name"] for column in inspector.get_columns("services")]
+
     if "service_type_id" not in columns:
         db.session.execute(
             text(
@@ -86,11 +94,13 @@ def seed_service_types():
     for name, description in default_types:
         if not ServiceType.query.filter_by(name=name).first():
             db.session.add(ServiceType(name=name, description=description))
+
     db.session.commit()
 
 
 def seed_services():
     service_types = {item.name: item for item in ServiceType.query.all()}
+
     default_services = [
         ("Design de sobrancelha", "Modelagem e finalização personalizada.", Decimal("45.00"), 45, "Sobrancelhas"),
         ("Extensão de cílios", "Aplicação completa com acabamento natural.", Decimal("140.00"), 120, "Cílios"),
@@ -110,6 +120,7 @@ def seed_services():
                     active=True,
                 )
             )
+
     db.session.commit()
 
 
@@ -120,12 +131,15 @@ def assign_default_service_types():
         "Manutenção de cílios": "Cílios",
         "Depilação de axila": "Depilação",
     }
+
     service_types = {item.name: item for item in ServiceType.query.all()}
 
     for service_name, type_name in service_type_map.items():
         service = Service.query.filter_by(name=service_name).first()
+
         if service and not service.service_type_id and service_types.get(type_name):
             service.service_type = service_types[type_name]
+
     db.session.commit()
 
 
@@ -133,4 +147,4 @@ app = create_app()
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=Config.DEBUG)

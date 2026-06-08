@@ -1,0 +1,232 @@
+# =========================
+
+# PYTHON
+
+# =========================
+
+**pycache**/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.python-version
+pip-log.txt
+pip-delete-this-directory.txt
+
+# =========================
+
+# VIRTUAL ENVIRONMENTS
+
+# =========================
+
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# =========================
+
+# FLASK
+
+# =========================
+
+instance/
+.webassets-cache
+.flaskenv
+
+# =========================
+
+# DJANGO
+
+# =========================
+
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# =========================
+
+# DATABASES
+
+# =========================
+
+*.db
+*.sqlite3
+*.sqlite
+
+# =========================
+
+# ENVIRONMENT VARIABLES
+
+# =========================
+
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# =========================
+
+# IDE / EDITORS
+
+# =========================
+
+# VSCode
+
+.vscode/
+
+# PyCharm
+
+.idea/
+*.iml
+
+# Sublime
+
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+
+*.swp
+*.swo
+
+# =========================
+
+# OPERATING SYSTEM
+
+# =========================
+
+# Linux
+
+*~
+
+# macOS
+
+.DS_Store
+
+# Windows
+
+Thumbs.db
+desktop.ini
+
+# =========================
+
+# NODE / FRONTEND
+
+# =========================
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =========================
+
+# BUILD / DIST
+
+# =========================
+
+dist/
+build/
+site/
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.cache/
+
+# =========================
+
+# TESTS
+
+# =========================
+
+.tox/
+.nox/
+
+# =========================
+
+# JUPYTER
+
+# =========================
+
+.ipynb_checkpoints
+
+# =========================
+
+# STATIC FILES GENERATED
+
+# =========================
+
+*.map
+
+# =========================
+
+# PDF EXPORTS / REPORTS
+
+# =========================
+
+exports/
+reports/
+generated_pdfs/
+
+# =========================
+
+# TEMP FILES
+
+# =========================
+
+tmp/
+temp/
+*.tmp
+
+# =========================
+
+# SECURITY
+
+# =========================
+
+secrets/
+credentials.json
+
+# =========================
+
+# VERCEL
+
+# =========================
+
+.vercel/
+
+# =========================
+
+# LOG FILES
+
+# =========================
+
+*.log
+
+# =========================
+
+# BACKUPS
+
+# =========================
+
+backup/
+backups/
+*.bak
+
+# =========================
+
+# CACHE
+
+# =========================
+
+.cache-loader/
+sass-cache/
+.eslintcache
